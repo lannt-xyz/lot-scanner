@@ -29,13 +29,18 @@ class FileService:
         return temp_file_path
 
     @staticmethod
-    def delete_temp_file(file_path: Union[str, Path]) -> None:
+    def delete_temp_dir(dir_path: Union[str, Path]) -> None:
         """
-        Delete a temporary file.
+        Delete a temporary directory.
 
         Args:
-            file_path (Union[str, Path]): The path to the file to delete.
+            file_path (Union[str, Path]): The path to the directory to delete.
         """
-        file_path = Path(file_path)
-        if file_path.exists():
-            file_path.unlink()
+        dir_path = Path(dir_path)
+        if dir_path.exists():
+            for item in dir_path.iterdir():
+                if item.is_file():
+                    item.unlink()
+                elif item.is_dir():
+                    FileService.delete_temp_dir(item)
+            dir_path.rmdir()

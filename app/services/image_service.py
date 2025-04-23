@@ -1,18 +1,25 @@
-from fastapi import File, UploadFile
 import json
+import os
+import uuid
+
+from fastapi import File, UploadFile
 
 from app.logs import logger
 from app.error.bad_request_exception import BadRequestException
 from app.modules.ocr.image_to_text import convert_image_to_text
-from app.modules.text_extract.gemini_api import generate_gemini_response
+from app.modules.gemini.gemini_api import generate_gemini_response
 from app.services.file_service import FileService
 from app.utils.template_loader import template_env 
 
 class ImageService:
     def image_to_lot_info(self, image: UploadFile = File(...)) -> str:
         try:
+            # Generate uuid for this time process
+            unique_id = uuid.uuid4()
+            temp_dir = os.path.join('temp', str(unique_id))
+
             # Save the uploaded file to a temporary directory
-            temp_file_path = FileService.save_temp_file(image)
+            temp_file_path = FileService.save_temp_file(image, temp_dir)
             # Call your OCR function here
             ocr_text = convert_image_to_text(temp_file_path)
             # Create a prompt for the Gemini model by loading the Jinja2 template
@@ -29,5 +36,6 @@ class ImageService:
             logger.error(f"Error processing image: {str(e)}")
             raise BadRequestException('Error processing the image: {}'.format(str(e)))
         finally:
-            # Clean up the temporary file
-            FileService.delete_temp_file(temp_file_path)
+            # Clean up the temporary directory
+            FileService.delete_temp_dir(temp_dir)
+            
