@@ -14,6 +14,13 @@ class Settings(BaseSettings):
     # GEMINI API KEY
     gemini_api_key: str
     gemini_model_id: str
+    
+    # Auth Settings
+    auth_secret_key: str
+
+    # Google OAuth settings
+    google_client_id: str
+    google_client_secret: str
 
     # pylint: disable=too-few-public-methods
     class Config:
