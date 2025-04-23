@@ -9,5 +9,3 @@ def ocr_image(image: UploadFile = File(...)):
     image_service = ImageService()
     result = image_service.image_to_lot_info(image)
     return JSONResponse(content=result)
-    
-    
