@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from app.db.entities.user import User
 from app.db.services.user_schemas import UserCreate, UserRead, UserUpdate
 from app.modules.auth import fastapi_users, SECRET, auth_backend, current_active_user
-from app.modules.auth.google_auth import google_oauth_client
+from app.modules.auth.google_idp import google_oauth_client
 
 router = APIRouter()
 
@@ -36,8 +36,3 @@ router.include_router(
     prefix="/auth/google",
     tags=["auth"],
 )
-
-
-@router.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
-    return {"message": f"Hello {user.email}!"}

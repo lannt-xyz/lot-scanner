@@ -2,14 +2,12 @@ from typing import Optional
 import uuid
 
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, models
-from fastapi_users.models import UP
+from fastapi_users import BaseUserManager, FastAPIUsers, IntegerIDMixin, models
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
     JWTStrategy,
 )
-from fastapi_users.exceptions import UserAlreadyExists
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 from app.db import get_user_db
@@ -21,9 +19,14 @@ from config import settings
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 SECRET = settings.auth_secret_key
 
-class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
+class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
+    
+    async def verify(self, token: str, request: Optional[Request] = None) -> models.UP:
+        user = await super().verify(token, request)
+        print(f"User {user.id} has been verified.")
+        return user
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
         print(f"User {user.id} has registered.")
@@ -40,6 +43,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
 
 def get_jwt_strategy() -> JWTStrategy[models.UP, models.ID]:
+    logger.info("Validating JWT token")
     return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
@@ -53,7 +57,7 @@ auth_backend = AuthenticationBackend(
 
 # Set up FastAPI-Users
 fastapi_users = FastAPIUsers[User, int](
-    get_user_manager=get_user_manager,
-    auth_backends=[auth_backend],
+    get_user_manager,
+    [auth_backend],
 )
 current_active_user = fastapi_users.current_user(active=True)
