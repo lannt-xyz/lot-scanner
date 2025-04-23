@@ -48,12 +48,18 @@ NAM,LD,ĐÀ LẠT (LÂM ĐỒNG),CHỦ NHẬT
 
 Lưu ý:
 - Dãy số trúng thưởng có thể được ghi bằng chữ (ví dụ: “một, hai, ba, bốn, năm, sáu”), hãy ưu tiên trích xuất dãy số sáu chữ số từ dạng chữ nếu có.
-- Nếu không tìm thấy dãy số trúng thưởng, hãy tìm kiếm các ký tự số liên tiếp có độ dài 6.
-- Định dạng kết quả trả về như sau:
+- Nếu không tìm thấy dãy số trúng thưởng, hãy tìm kiếm các ký tự số liên tiếp có độ dài 6 (xem như là không tìm thấy nếu không đủ 6 chữ số).
+- Định dạng kết quả trả về nếu tất cả các trường có thể xác định:
 {
-  "kenh_xo_so": string (trả về ma_dai tương ứng với miền trong danh sách),
-  "ngay_mo_thuong": string (định dạng YYYY-MM-DD),
-  "so_du_thuong": string (6 CHỮ SỐ)
+  "result": {
+    "kenh_xo_so": string (trả về ma_dai tương ứng với miền trong danh sách),
+    "ngay_mo_thuong": string (định dạng YYYY-MM-DD),
+    "so_du_thuong": string (6 CHỮ SỐ)
+  }
+}
+- Định dạng kết quả trả về nếu một trong các trường không thể xác định:
+{
+  "result": null
 }
 
 Dưới đây là nội dung OCR cần xử lý:
