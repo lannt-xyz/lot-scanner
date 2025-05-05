@@ -15,21 +15,22 @@ class AuthenticatedUser(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class ApplicationContext(BaseModel):
-    user: AuthenticatedUser
+    user: Optional[AuthenticatedUser] = None # change to require
     db: Session
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 def get_application_context():
     def context_provider(
         db: Session = Depends(get_session),
-        authenticated_user: User = Depends(current_active_user)
+        # authenticated_user: User = Depends(current_active_user)
     ):
-        if not authenticated_user:
-            raise UnauthorizedException("Unauthorized.")
+        # if not authenticated_user:
+        #     raise UnauthorizedException("Unauthorized.")
 
-        user = AuthenticatedUser(
-            user_id=authenticated_user.id,
-            email=authenticated_user.email
-        )
-        return ApplicationContext(user=user, db=db)
+        # user = AuthenticatedUser(
+        #     user_id=authenticated_user.id,
+        #     email=authenticated_user.email
+        # )
+        # return ApplicationContext(user=user, db=db)
+        return ApplicationContext(user=None, db=db)
     return context_provider

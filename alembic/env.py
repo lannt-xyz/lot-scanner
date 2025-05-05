@@ -9,6 +9,7 @@ from config import settings
 from app.db.entities import Base
 from app.db.entities.user import User, OAuthAccount
 from app.db.entities.code_master import CodeMaster
+from app.db.entities.ticket import Ticket
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

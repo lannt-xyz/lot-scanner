@@ -7,7 +7,8 @@ from app.controllers import (
     auth_controller,
     lot_scan_controller,
     secure_controller,
-    config_controller
+    config_controller,
+    ticket_controller,
 )
 
 # Create a FastAPI instance
@@ -19,6 +20,7 @@ api_version_prefix = "/api/v1"
 app.include_router(lot_scan_controller.router, prefix=api_version_prefix, tags=["OCR"])
 app.include_router(config_controller.router, prefix=api_version_prefix, tags=["Configurations"])
 app.include_router(secure_controller.router, prefix=api_version_prefix, tags=["Secure"])
+app.include_router(ticket_controller.router, prefix=f'{api_version_prefix}/tickets', tags=["Tickets"])
 
 # Add CORS middleware to the FastAPI application
 app.add_middleware(
