@@ -24,7 +24,7 @@ class TicketService:
         ticket = Ticket()
         ticket.channel = ticket_model.channel
         ticket.prize_date = ticket_model.prize_date
-        ticket.prize_number = ticket_model.prize
+        ticket.prize_number = ticket_model.prize_number
 
         self.db.add(ticket)
         self.db.commit()

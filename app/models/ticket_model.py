@@ -6,7 +6,7 @@ from fastapi_camelcase import CamelModel
 class TicketModel(CamelModel):
   channel: str
   prize_date: date
-  prize: str
+  prize_number: str
 
 class TicketResponseModel(CamelModel):
   id: int
