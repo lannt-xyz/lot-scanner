@@ -21,3 +21,11 @@ def save_ticket(
     ticket_service = TicketService(context.db)
     ticket_service.register_ticket(ticket_model)
     return JSONResponse(content=BaseResponseModel.ok())
+
+@router.get("")
+def get_ticket(
+    context: ApplicationContext = Depends(get_application_context()),
+):
+    ticket_service = TicketService(context.db)
+    ticket = ticket_service.get_ticket()
+    return JSONResponse(content=BaseResponseModel.of(ticket))

@@ -8,3 +8,7 @@ class BaseResponseModel(BaseModel):
     @staticmethod
     def ok() -> Any:
         return jsonable_encoder(BaseResponseModel())
+
+    @staticmethod
+    def of(data: Any) -> Any:
+        return jsonable_encoder(BaseResponseModel(detail=data))
