@@ -6,7 +6,7 @@ from app.db.entities.code_master import CodeMaster
 
 from app.db.entities.ticket import Ticket
 from app.models.ticket_model import TicketModel, TicketResponseModel
-from app.utils.common import get_ticket_result
+from app.utils.common import get_ticket_result_by_prize
 from app.utils.constants import TICKET_NO_RESULT, TICKET_RESULT_DATA
 
 class TicketService:
@@ -18,8 +18,9 @@ class TicketService:
         result = TicketResponseModel(**ticket._asdict())
         ticket_result = result.result
         if ticket_result:
-            result.result = get_ticket_result(ticket_result)['message']
-            result.prize_amount = get_ticket_result(ticket_result)['amount']
+            res = get_ticket_result_by_prize(ticket_result)
+            result.result = res['message']
+            result.prize_amount = res['amount']
         else:
             result.result = TICKET_NO_RESULT
 

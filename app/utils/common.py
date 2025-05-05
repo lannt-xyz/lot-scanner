@@ -15,7 +15,12 @@ def convert_datetime_to_utc(date_time: datetime):
 def utcnow() -> datetime:
   return datetime.now(timezone.utc)
 
-def get_ticket_result(result: int):
+def get_ticket_result_by_prize(prize: str) -> dict:
     # Use a list comprehension to find the matching ticket result
-    matching_results = [x for x in TICKET_RESULT_DATA if x["prize"] == result]
+    matching_results = [x for x in TICKET_RESULT_DATA if x["prize"] == prize]
+    return matching_results[0] if matching_results else None
+
+def get_ticket_result_by_code(code: str) -> dict:
+    # Use a list comprehension to find the matching ticket result
+    matching_results = [x for x in TICKET_RESULT_DATA if x["code"] == code]
     return matching_results[0] if matching_results else None

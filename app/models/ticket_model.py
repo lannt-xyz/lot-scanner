@@ -9,7 +9,7 @@ class TicketModel(CamelModel):
   prize_number: str
 
 class TicketResponseModel(CamelModel):
-  id: int
+  id: Optional[int]
   channel: str
   prize_date: date
   prize_number: str

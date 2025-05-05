@@ -11,6 +11,31 @@ class CodeMasterService:
         self.db = db
         pass
 
+    def find_by_code(self, group_code, code_value: str) -> CodeMaster:
+        """
+        Fetches a CodeMaster entry based on group code and code value.
+
+        Args:
+            group_code (str): The group code to filter channels.
+            code_value (str): The code value to filter channels.
+
+        Returns:
+            CodeMaster: The CodeMaster entry that matches the provided group code and code value.
+        """
+        return (
+            self.db.exec(
+                select(CodeMaster)
+                .where(
+                    and_(
+                        CodeMaster.group_code == group_code,
+                        CodeMaster.code_value == code_value,
+                        CodeMaster.is_deleted.is_(False),
+                    )
+                )
+            )
+            .one_or_none()
+        )
+
     def get_by_group_code(self, group_code: str) -> List[SelectOption]:
         """
         Fetches all key/value pairs associated with a specific group code.
