@@ -11,4 +11,4 @@ class BaseResponseModel(BaseModel):
 
     @staticmethod
     def of(data: Any) -> Any:
-        return jsonable_encoder(BaseResponseModel(detail=data))
+        return jsonable_encoder(data)

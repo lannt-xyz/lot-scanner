@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Depends, Query
+from fastapi import APIRouter, Body, Depends, Path, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
@@ -13,19 +13,28 @@ from app.models.ticket_model import TicketModel
 
 router = APIRouter()
 
+@router.get("")
+def get_tickets(
+    context: ApplicationContext = Depends(get_application_context()),
+):
+    ticket_service = TicketService(context.db)
+    tickets = ticket_service.get_tickets()
+    return JSONResponse(content=BaseResponseModel.of(tickets))
+
 @router.post("")
 def save_ticket(
     ticket_model: TicketModel = Body(..., description="Ticket Model"),
     context: ApplicationContext = Depends(get_application_context()),
 ):
     ticket_service = TicketService(context.db)
-    ticket_service.register_ticket(ticket_model)
-    return JSONResponse(content=BaseResponseModel.ok())
+    ticket = ticket_service.register_ticket(ticket_model)
+    return JSONResponse(content=BaseResponseModel.of(ticket))
 
-@router.get("")
+@router.get("/{ticket_id}")
 def get_ticket(
+    ticket_id: int = Path(..., description="Ticket ID"),
     context: ApplicationContext = Depends(get_application_context()),
 ):
     ticket_service = TicketService(context.db)
-    ticket = ticket_service.get_ticket()
+    ticket = ticket_service.get_ticket(ticket_id)
     return JSONResponse(content=BaseResponseModel.of(ticket))
