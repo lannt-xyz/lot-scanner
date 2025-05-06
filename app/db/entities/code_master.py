@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy import Column, Integer, String
 
 from app.db.entities import Base
 from app.db.entities.audit_mixin import AuditMixin

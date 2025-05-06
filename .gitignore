@@ -4,3 +4,4 @@ venv/
 .env
 output/
 temp/
+uploaded_photos/

@@ -45,7 +45,6 @@ def convert_image_to_text(path: str):
     for idx in range(len(result)):
         res = result[idx]
         for line in res:
-            print(line)
             line_text = line[1][0]
             line_conf = line[1][1]
             if line_conf < 0.7:

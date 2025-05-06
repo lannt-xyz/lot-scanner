@@ -12,14 +12,14 @@ from app.services.file_service import FileService
 from app.utils.template_loader import template_env 
 
 class ImageService:
-    def image_to_lot_info(self, image: UploadFile = File(...)) -> str:
+    def image_to_lot_info(self, device_id: str, image: UploadFile = File(...)) -> dict:
         try:
             # Generate uuid for this time process
             unique_id = uuid.uuid4()
             temp_dir = os.path.join('temp', str(unique_id))
 
             # Save the uploaded file to a temporary directory
-            temp_file_path = FileService.save_temp_file(image, temp_dir)
+            temp_file_path = FileService.save_file(image, temp_dir)
             # Call your OCR function here
             ocr_text = convert_image_to_text(temp_file_path)
             # Create a prompt for the Gemini model by loading the Jinja2 template
@@ -30,12 +30,18 @@ class ImageService:
             if not result or result == 'not_found':
                 raise BadRequestException('Gemini API returned an empty response')
             # Parse the result as JSON
-            result = result.replace("```json", '').replace("```", "")
-            return json.loads(result)
+            corrected_text = result.replace("```json", '').replace("```", "")
+            json_dict = json.loads(corrected_text)
+
+            # Save uploaded image to storage
+            upload_dir = os.path.join('uploaded_photos', str(device_id), str(unique_id))
+            upload_file = FileService.save_file(image, upload_dir)
+
+            return upload_file, ocr_text, json_dict, corrected_text
         except Exception as e:
             logger.error(f"Error processing image: {str(e)}")
             raise BadRequestException('Error processing the image: {}'.format(str(e)))
         finally:
             # Clean up the temporary directory
-            FileService.delete_temp_dir(temp_dir)
+            FileService.delete_dir(temp_dir)
             

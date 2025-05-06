@@ -10,6 +10,8 @@ from app.db.entities import Base
 from app.db.entities.user import User, OAuthAccount
 from app.db.entities.code_master import CodeMaster
 from app.db.entities.ticket import Ticket
+from app.db.entities.scan_history import ScanHistory
+from app.db.entities.device_information import DeviceInformation
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

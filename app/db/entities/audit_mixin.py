@@ -1,5 +1,4 @@
 from datetime import datetime
-from numpy import cov
 from sqlalchemy import String
 from sqlalchemy.orm import declared_attr, Mapped, mapped_column
 from sqlalchemy.types import DateTime, TypeDecorator
@@ -23,7 +22,7 @@ class UtcDatetime(TypeDecorator):
 class AuditMixin:
     is_deleted: Mapped[bool] = mapped_column(default=False, nullable=False)
 
-    created_by: Mapped[str] = mapped_column(String(20), nullable=False)
+    created_by: Mapped[str] = mapped_column(String(20), default='guest', nullable=False)
 
     @declared_attr
     def created_at(cls) -> Mapped[datetime]:
@@ -34,7 +33,7 @@ class AuditMixin:
             nullable=False,
         )
 
-    updated_by: Mapped[str] = mapped_column(String(20), nullable=False)
+    updated_by: Mapped[str] = mapped_column(String(20), default='guest', nullable=False)
 
     @declared_attr
     def updated_at(cls) -> Mapped[datetime]:

@@ -4,7 +4,7 @@ from fastapi import UploadFile
 
 class FileService:
     @staticmethod
-    def save_temp_file(file: UploadFile, temp_dir: Union[str, Path] = "temp") -> Path:
+    def save_file(file: UploadFile, temp_dir: Union[str, Path] = "temp") -> Path:
         """
         Save an uploaded file to a temporary directory.
 
@@ -29,7 +29,7 @@ class FileService:
         return temp_file_path
 
     @staticmethod
-    def delete_temp_dir(dir_path: Union[str, Path]) -> None:
+    def delete_dir(dir_path: Union[str, Path]) -> None:
         """
         Delete a temporary directory.
 
@@ -42,5 +42,5 @@ class FileService:
                 if item.is_file():
                     item.unlink()
                 elif item.is_dir():
-                    FileService.delete_temp_dir(item)
+                    FileService.delete_dir(item)
             dir_path.rmdir()
