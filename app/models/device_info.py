@@ -13,6 +13,15 @@ class DeviceInfo():
         self.os_version = os_version
         self.user_agent = user_agent
 
+    def is_empty(self) -> bool:
+        """
+        Checks if the device information is empty.
+        
+        Returns:
+            bool: True if any of the fields are empty, False otherwise.
+        """
+        return not (self.id and self.model and self.os_version and self.user_agent)
+
     def to_fingerprint(self) -> str:
         """
         Generates a fingerprint based on the device information.

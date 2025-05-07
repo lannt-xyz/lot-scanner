@@ -15,4 +15,4 @@ def save_ticket(
 ):
     quick_scan_service = QuickScanService(context.db)
     ticket = quick_scan_service.scan(ticket_model)
-    return JSONResponse(content=BaseResponseModel.of(ticket))
+    return BaseResponseModel.ok(ticket)

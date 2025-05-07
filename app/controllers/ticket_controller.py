@@ -19,7 +19,7 @@ def get_tickets(
 ):
     ticket_service = TicketService(context.db)
     tickets = ticket_service.get_tickets()
-    return JSONResponse(content=BaseResponseModel.of(tickets))
+    return BaseResponseModel.ok(tickets)
 
 @router.post("")
 def save_ticket(
@@ -28,7 +28,7 @@ def save_ticket(
 ):
     ticket_service = TicketService(context.db)
     ticket = ticket_service.register_ticket(ticket_model)
-    return JSONResponse(content=BaseResponseModel.of(ticket))
+    return BaseResponseModel.ok(ticket)
 
 @router.get("/{ticket_id}")
 def get_ticket(
@@ -37,4 +37,4 @@ def get_ticket(
 ):
     ticket_service = TicketService(context.db)
     ticket = ticket_service.get_ticket(ticket_id)
-    return JSONResponse(content=BaseResponseModel.of(ticket))
+    return BaseResponseModel.ok(ticket)

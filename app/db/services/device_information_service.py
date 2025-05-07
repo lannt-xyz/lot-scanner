@@ -1,4 +1,5 @@
-from sqlmodel import select
+from sqlmodel import select, and_
+
 from app.db import SessionDep
 from app.db.entities.device_information import DeviceInformation
 from app.models.device_info import DeviceInfo

@@ -6,13 +6,14 @@ from fastapi import File, UploadFile
 
 from app.logs import logger
 from app.error.bad_request_exception import BadRequestException
+from app.models.orc_result_model import OcrResultModel
 from app.modules.ocr.image_to_text import convert_image_to_text
 from app.modules.gemini.gemini_api import generate_gemini_response
 from app.modules.services.file_service import FileService
 from app.utils.template_loader import template_env 
 
 class ImageService:
-    def image_to_lot_info(self, device_id: str, image: UploadFile = File(...)) -> dict:
+    def image_to_lot_info(self, device_id: str, image: UploadFile = File(...)) -> tuple:
         try:
             # Generate uuid for this time process
             unique_id = uuid.uuid4()
@@ -32,12 +33,13 @@ class ImageService:
             # Parse the result as JSON
             corrected_text = result.replace("```json", '').replace("```", "")
             json_dict = json.loads(corrected_text)
+            ocr_result = OcrResultModel(**json_dict)
 
             # Save uploaded image to storage
             upload_dir = os.path.join('uploaded_photos', str(device_id), str(unique_id))
             upload_file = FileService.save_file(image, upload_dir)
 
-            return upload_file, ocr_text, json_dict, corrected_text
+            return upload_file, ocr_text, ocr_result, corrected_text
         except Exception as e:
             logger.error(f"Error processing image: {str(e)}")
             raise BadRequestException('Error processing the image: {}'.format(str(e)))
