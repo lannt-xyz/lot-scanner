@@ -6,6 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from app import app
 from app.error.access_forbidden_exception import AccessForbiddenException
 from app.error.bad_request_exception import BadRequestException
+from app.error.rate_limit_exception import RateLimitException
 from app.error.unauthorized_exception import UnauthorizedException
 from app.logs import logger
 from app.error.not_found_exception import NotFoundException
@@ -40,6 +41,14 @@ async def unauthorized_exception_handler(request: Request, exc: UnauthorizedExce
 async def access_forbidden_exception_handler(request: Request, exc: AccessForbiddenException):
     return JSONResponse(
         status_code=status.HTTP_403_FORBIDDEN,
+        content=jsonable_encoder(BaseResponseModel(detail=exc.message)),
+    )
+
+@app.exception_handler(RateLimitException)
+# pylint: disable=unused-argument
+async def rate_limit_exception_handler(request: Request, exc: RateLimitException):
+    return JSONResponse(
+        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
         content=jsonable_encoder(BaseResponseModel(detail=exc.message)),
     )
 
