@@ -4,17 +4,15 @@ TRUNG,HUE,Thừa Thiên Huế,THỨ 2,thua-thien-hue
 TRUNG,PY,Phú Yên,THỨ 2,phu-yen
 TRUNG,DLK,Đắk Lắk,THỨ 3,dak-lak
 TRUNG,QNM,Quảng Nam,THỨ 3,quang-nam
-TRUNG,DNG,Đà Nẵng,THỨ 4,da-nang
-TRUNG,KH,Khánh Hòa,THỨ 4,khanh-hoa
+TRUNG,DNG,Đà Nẵng,THỨ 4 & THỨ 7,da-nang
+TRUNG,KH,Khánh Hòa,THỨ 4 &CHỦ NHẬT,khanh-hoa
 TRUNG,BDI,Bình Định,THỨ 5,binh-dinh
 TRUNG,QB,Quảng Bình,THỨ 5,quang-binh
 TRUNG,QT,Quảng Trị,THỨ 5,quang-tri
 TRUNG,GL,Gia Lai,THỨ 6,gia-lai
 TRUNG,NT,Ninh Thuận,THỨ 6,ninh-thuan
-TRUNG,DNG,Đà Nẵng,THỨ 7,da-nang
 TRUNG,QNG,Quảng Ngãi,THỨ 7,quang-ngai
 TRUNG,DNO,Đắk Nông,THỨ 7,dak-nong
-TRUNG,KH,Khánh Hòa,CHỦ NHẬT,khanh-hoa
 TRUNG,KT,Kon Tum,CHỦ NHẬT,kon-tum
 NAM,HCM,Tp. Hồ Chí Minh,THỨ 2 & THỨ 7,tp-hcm
 NAM,DT,Đồng Tháp,THỨ 2,dong-thap
