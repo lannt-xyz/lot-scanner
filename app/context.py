@@ -33,10 +33,7 @@ def get_device_info(request: Request) -> DeviceInfo:
     model = request.headers.get("X-Device-Model")
     os_version = request.headers.get("X-Device-OS-Version")
     user_agent = request.headers.get("X-Device-User-Agent")
-    
-    if not id or not model or not os_version or not user_agent:
-        raise BadRequestException("Missing device information in headers.")
-    
+
     return DeviceInfo(
         id=id,
         model=model,
