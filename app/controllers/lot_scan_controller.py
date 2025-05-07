@@ -8,7 +8,7 @@ from app.db.entities import scan_history
 from app.db.services.device_information_service import DeviceInfoService
 from app.db.services.scan_history_service import ScanHistoryService
 from app.models.device_info import DeviceInfo
-from app.services.image_service import ImageService
+from app.modules.services.image_service import ImageService
 
 router = APIRouter()
 

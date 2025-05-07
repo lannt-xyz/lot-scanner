@@ -8,7 +8,7 @@ from app.logs import logger
 from app.error.bad_request_exception import BadRequestException
 from app.modules.ocr.image_to_text import convert_image_to_text
 from app.modules.gemini.gemini_api import generate_gemini_response
-from app.services.file_service import FileService
+from app.modules.services.file_service import FileService
 from app.utils.template_loader import template_env 
 
 class ImageService:
