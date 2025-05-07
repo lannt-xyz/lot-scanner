@@ -19,14 +19,10 @@ router = APIRouter()
 @router.post("/ocr")
 def ocr_image(
     image: UploadFile = File(...),
-    context: ApplicationContext = Depends(get_application_context()),
+    context: ApplicationContext = Depends(get_application_context(device_info_required=True)),
 ):
     db: Session = context.db
     device_info: DeviceInfo = context.device_info
-    
-    if device_info.is_empty():
-        raise BadRequestException("Missing device information in headers.")
-
 
     scan_counter_service = ScanCounterService(db)
     is_scanable = scan_counter_service.is_scanable(device_info.id)

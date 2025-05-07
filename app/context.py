@@ -42,12 +42,15 @@ def get_device_info(request: Request) -> DeviceInfo:
     )
 
 
-def get_application_context():
+def get_application_context(device_info_required: bool = False):
     def context_provider(
         db: Session = Depends(get_session),
         device_info: DeviceInfo = Depends(get_device_info),
         # authenticated_user: User = Depends(current_active_user)
     ):
+        if device_info_required and device_info.is_empty():
+            raise BadRequestException("Missing device information in headers.")
+
         # if not authenticated_user:
         #     raise UnauthorizedException("Unauthorized.")
 
