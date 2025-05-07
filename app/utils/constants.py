@@ -16,9 +16,7 @@ TICKET_RESULT_DATA = [
 
 TICKET_NO_RESULT = "Vé chưa có kết quả"
 
-GROUP_CODES = {
-    "CHANNELS": "100002"
-}
+GROUP_CODES_CHANNELS = "100002"
 
 NON_MATCH_CODE = "khong-trung"
 

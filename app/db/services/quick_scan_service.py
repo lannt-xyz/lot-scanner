@@ -6,7 +6,7 @@ from app.models.ticket_model import TicketModel, TicketResponseModel
 from app.modules.kqxs.models import PrizeStructure
 from app.modules.kqxs.scan_client import ScanClient, get_prize_structure
 from app.utils.common import get_ticket_result_by_code
-from app.utils.constants import CONSOLATION_PRIZE_CODE, GROUP_CODES, NON_MATCH_CODE, SPECIAL_CONSOLATION_PRIZE_CODE, SPECIAL_PRIZE_CODE
+from app.utils.constants import CONSOLATION_PRIZE_CODE, GROUP_CODES_CHANNELS, NON_MATCH_CODE, SPECIAL_CONSOLATION_PRIZE_CODE, SPECIAL_PRIZE_CODE
 
 class QuickScanService:
     def __init__(self, db: SessionDep):
@@ -63,12 +63,12 @@ class QuickScanService:
         current_datetime = datetime.now()
         limit_date_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, 16, 30)
 
-        result = get_ticket_result_by_code('khong-trung')
+        result = get_ticket_result_by_code(NON_MATCH_CODE)
         # if prize_date is early than current date
         # if prize_date is same as current date and current time is greater than 16:30
         if ticket.prize_date < limit_date_time.date() or current_datetime >= limit_date_time:
             code_mater = CodeMasterService(self.db)
-            channel = code_mater.find_by_code(GROUP_CODES['CHANNELS'], ticket.channel).code_name2
+            channel = code_mater.find_by_code(GROUP_CODES_CHANNELS, ticket.channel).code_name2
 
             scan_client = ScanClient()
             scan_result = scan_client.scan(ticket.prize_date)
