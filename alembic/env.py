@@ -1,3 +1,6 @@
+import importlib
+import pkgutil
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -7,11 +10,13 @@ from alembic import context
 
 from config import settings
 from app.db.entities import Base
-from app.db.entities.user import User, OAuthAccount
-from app.db.entities.code_master import CodeMaster
-from app.db.entities.ticket import Ticket
-from app.db.entities.scan_history import ScanHistory
-from app.db.entities.device_information import DeviceInformation
+
+# Automatically import all modules in app.db.entities
+import app.db.entities
+
+package = app.db.entities
+for _, module_name, _ in pkgutil.iter_modules(package.__path__):
+    importlib.import_module(f"{package.__name__}.{module_name}")
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

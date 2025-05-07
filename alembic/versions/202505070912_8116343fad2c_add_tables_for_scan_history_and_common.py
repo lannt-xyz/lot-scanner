@@ -69,6 +69,16 @@ def upgrade() -> None:
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('user_device',
+    sa.Column('user_id', sa.String(length=255), nullable=False),
+    sa.Column('device_id', sa.String(length=255), nullable=False),
+    sa.Column('is_deleted', sa.Boolean(), nullable=False),
+    sa.Column('created_by', sa.String(length=255), nullable=False),
+    sa.Column('updated_by', sa.String(length=255), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.PrimaryKeyConstraint('user_id', 'device_id')
+    )
 
     # Load data from CSV file and insert for the Global_punc dictionary
     created_date = datetime.now(UTC)
@@ -140,3 +150,4 @@ def downgrade() -> None:
     op.drop_table('scan_history')
     op.drop_table('device_information')
     op.drop_table('code_master')
+    op.drop_table('user_device')
