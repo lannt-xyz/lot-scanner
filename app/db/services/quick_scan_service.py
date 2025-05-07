@@ -63,6 +63,7 @@ class QuickScanService:
         current_datetime = datetime.now()
         limit_date_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, 16, 30)
 
+        result = get_ticket_result_by_code('khong-trung')
         # if prize_date is early than current date
         # if prize_date is same as current date and current time is greater than 16:30
         if ticket.prize_date < limit_date_time.date() or current_datetime >= limit_date_time:
