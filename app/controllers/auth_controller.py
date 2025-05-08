@@ -1,10 +1,9 @@
 
 from click import prompt
 from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import  RedirectResponse
 
 from app.db.services.user_schemas import UserCreate, UserRead, UserUpdate
-from app.modules import auth
 from app.modules.auth import fastapi_users, SECRET, auth_backend
 from app.modules.auth.google_idp import google_oauth_client
 

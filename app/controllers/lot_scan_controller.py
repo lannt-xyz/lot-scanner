@@ -1,14 +1,10 @@
-from unittest import result
 from fastapi import APIRouter, Depends, UploadFile, File
-from fastapi.responses import JSONResponse
-from pydantic import Json
 from sqlmodel import Session
 
 from app.context import ApplicationContext, get_application_context
 from app.db.services.device_information_service import DeviceInfoService
 from app.db.services.scan_counter_service import ScanCounterService
 from app.db.services.scan_history_service import ScanHistoryService
-from app.error.bad_request_exception import BadRequestException
 from app.error.rate_limit_exception import RateLimitException
 from app.models.base_response_model import BaseResponseModel
 from app.models.device_info import DeviceInfo

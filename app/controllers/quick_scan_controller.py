@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Body, Depends
-from fastapi.responses import JSONResponse
 
 from app.context import ApplicationContext, get_application_context
 from app.db.services.quick_scan_service import QuickScanService

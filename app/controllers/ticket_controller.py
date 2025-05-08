@@ -1,12 +1,6 @@
-from fastapi import APIRouter, Body, Depends, Path, Query
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
-
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Body, Depends, Path
 
 from app.context import ApplicationContext, get_application_context
-from app.db import get_session
-from app.db.services.code_master_service import CodeMasterService
 from app.db.services.ticket_service import TicketService
 from app.models.base_response_model import BaseResponseModel
 from app.models.ticket_model import TicketModel
