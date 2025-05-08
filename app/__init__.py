@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 
 from app.controllers import (
+    ad_reward_controller,
     auth_controller,
     lot_scan_controller,
     quick_scan_controller,
@@ -23,6 +24,7 @@ app.include_router(config_controller.router, prefix=api_version_prefix, tags=["C
 app.include_router(secure_controller.router, prefix=api_version_prefix, tags=["Secure"])
 app.include_router(quick_scan_controller.router, prefix=f'{api_version_prefix}/quick-scan', tags=["Quick Scan"])
 app.include_router(ticket_controller.router, prefix=f'{api_version_prefix}/tickets', tags=["Tickets"])
+app.include_router(ad_reward_controller.router, prefix=f'{api_version_prefix}/ad-rewards', tags=["Ad Rewards"])
 
 # Add CORS middleware to the FastAPI application
 app.add_middleware(

@@ -26,6 +26,11 @@ class Settings(BaseSettings):
     scan_limit_guest: int = 0
     scan_limit_user: int = 0
 
+    # Ad Reward Settings
+    ad_reward_token_secret: str
+    ad_reward_expiration_time: int = 0
+    ad_network: str = "admob"
+
     # pylint: disable=too-few-public-methods
     class Config:
         env_file = Path(Path(__file__).resolve().parent) / ".env"
