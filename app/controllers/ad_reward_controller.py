@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Path
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from sqlalchemy.orm import Session
 
 from app.context import ApplicationContext, get_application_context
-from app.db import get_session
 from app.db.services.ad_reward_service import AdRewardService
+from app.models.ad_reward_payload_model import AdRewardPayloadModel
 
 router = APIRouter()
 
@@ -17,3 +16,14 @@ def request_rewards(
     ad_reward_service = AdRewardService(context.db)
     results = ad_reward_service.generate_rewards_token(context.device_info)
     return JSONResponse(content=jsonable_encoder(results))
+
+@router.post("/verify/{ad_network}")
+def request_rewards(
+    ad_network: str = Path(..., description="Ad network to verify"),
+    ad_payload: AdRewardPayloadModel = Depends(),
+    context: ApplicationContext = Depends(get_application_context(device_info_required=True)),
+):
+    ad_reward_service = AdRewardService(context.db)
+    results = ad_reward_service.verify_admod_reward(ad_network, ad_payload)
+    return JSONResponse(content=jsonable_encoder(results))
+
