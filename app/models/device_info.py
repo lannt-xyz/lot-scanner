@@ -1,5 +1,4 @@
 import hashlib
-from pydantic import BaseModel
 
 class DeviceInfo():
     id: str

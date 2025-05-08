@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import DateTime, String
-from sqlalchemy.orm import declared_attr, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.utils.common import utcnow
 

@@ -31,6 +31,9 @@ def ocr_image(
     device_info_service = DeviceInfoService(db)
     device_info_service.save_if_not_exists(device_info)
 
+    # increase scan count
+    scan_counter_service.decrease_limitation(device_info.id)
+
     # Check if the JSON response contains a result
     # If the result is empty, raise an exception for ignoring scan history
     if ocr_result.result is not None:

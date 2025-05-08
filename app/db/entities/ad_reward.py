@@ -1,5 +1,5 @@
-from cv2 import exp
-from sqlalchemy import Column, BigInteger, String, Enum, DateTime
+from sqlalchemy import Column, BigInteger, String, DateTime
+
 from app.db.entities import Base
 from app.db.entities.audit_mixin import AuditMixin
 

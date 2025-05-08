@@ -1,6 +1,8 @@
-import json
 import os
 import uuid
+import json
+
+from typing import Tuple
 
 from fastapi import File, UploadFile
 
@@ -13,7 +15,7 @@ from app.modules.services.file_service import FileService
 from app.utils.template_loader import template_env 
 
 class ImageService:
-    def image_to_lot_info(self, device_id: str, image: UploadFile = File(...)) -> tuple:
+    def image_to_lot_info(self, device_id: str, image: UploadFile = File(...)) -> Tuple[str, str, OcrResultModel, str]:
         try:
             # Generate uuid for this time process
             unique_id = uuid.uuid4()
