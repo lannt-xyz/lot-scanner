@@ -17,13 +17,12 @@ def request_rewards(
     results = ad_reward_service.generate_rewards_token(context.device_info)
     return JSONResponse(content=jsonable_encoder(results))
 
-@router.post("/verify/{ad_network}")
-def request_rewards(
-    ad_network: str = Path(..., description="Ad network to verify"),
+@router.get("/verify/{ad_provider}")
+def verify_rewards(
+    ad_provider: str = Path(..., description="Ad network to verify"),
     ad_payload: AdRewardPayloadModel = Depends(),
-    context: ApplicationContext = Depends(get_application_context(device_info_required=True)),
+    context: ApplicationContext = Depends(get_application_context()),
 ):
     ad_reward_service = AdRewardService(context.db)
-    results = ad_reward_service.verify_admod_reward(ad_network, ad_payload)
+    results = ad_reward_service.verify_admod_reward(ad_provider, ad_payload)
     return JSONResponse(content=jsonable_encoder(results))
-

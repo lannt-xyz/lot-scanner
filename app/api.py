@@ -23,6 +23,7 @@ async def not_found_exception_handler(request: Request, exc: NotFoundException):
 @app.exception_handler(BadRequestException)
 # pylint: disable=unused-argument
 async def bad_request_exception_handler(request: Request, exc: BadRequestException):
+    print(f"BadRequestException: {exc}")
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content=jsonable_encoder(BaseResponseModel(detail=exc.message)),

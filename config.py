@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     ad_reward_token_secret: str
     ad_reward_expiration_time: int = 0
     ad_network: str = "admob"
+    admob_public_key_url: str
 
     # pylint: disable=too-few-public-methods
     class Config:

@@ -9,6 +9,8 @@ from app.db.entities.ad_reward import AdReward
 from app.error.bad_request_exception import BadRequestException
 from app.models.ad_reward_payload_model import AdRewardPayloadModel
 from app.models.ad_reward_response_model import AdRewardResponse
+from app.modules.ad import admob
+from app.modules.ad.admob import verify_signature
 from app.utils.enums import AdRewardEnum
 from config import settings
 from app.db import SessionDep
@@ -25,16 +27,9 @@ class AdRewardService:
         msg = f"{guest_id}:{timestamp}"
         return hmac.new(settings.ad_reward_token_secret.encode(), msg.encode(), hashlib.sha256).hexdigest()
 
-    def _verify_signature(payload: AdRewardPayloadModel):
+    def _verify_signature(self, payload: AdRewardPayloadModel):
         params = payload.model_dump()
-        # exclude the signature from the params
-        params.pop("signature", None)
-
-        message = '&'.join(f"{k}={params[k]}" for k in sorted(params))
-        signature = hmac.new(
-            settings.ad_reward_token_secret.encode(), message.encode(), hashlib.sha256
-        ).hexdigest()
-        return hmac.compare_digest(signature, payload.signature)
+        return verify_signature(params, payload.key_id, payload.signature)
 
     def generate_rewards_token(self, device_info) -> AdRewardResponse:
         guest_id = device_info.id
@@ -66,7 +61,7 @@ class AdRewardService:
         if ad_network != settings.ad_network:
             raise BadRequestException('Invalid ad network')
 
-        is_valid = self._verify_signature(payload, payload.signature)
+        is_valid = self._verify_signature(payload)
         if not is_valid:
             raise BadRequestException('Invalid signature')
         
